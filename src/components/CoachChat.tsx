@@ -38,12 +38,13 @@ What is occupying your focus today? Feel free to pick a prompt below or type you
   }, [messages]);
 
   const handleSendMessage = async (textToSend: string) => {
-    if (!textToSend.trim() || isSending) return;
+    const trimmed = textToSend.trim();
+    if (trimmed.length < 2 || isSending) return;
 
     const userMsg: ChatMessage = {
       id: crypto.randomUUID(),
       sender: "user",
-      text: textToSend.trim(),
+      text: trimmed,
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     };
 
@@ -100,7 +101,7 @@ What is occupying your focus today? Feel free to pick a prompt below or type you
           </div>
           <div>
             <h2 className="text-sm font-sans font-bold text-white tracking-wide">AI Wellness Coach Terminal</h2>
-            <p className="text-[10px] text-zinc-400 font-mono tracking-wider uppercase">Active coaching & active coping</p>
+            <p className="text-[10px] text-zinc-300 font-mono tracking-wider uppercase font-semibold">Active coaching & active coping</p>
           </div>
         </div>
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-mono">
@@ -137,7 +138,7 @@ What is occupying your focus today? Feel free to pick a prompt below or type you
                   <p>{m.text}</p>
                 )}
               </div>
-              <span className={`text-[9px] font-mono text-zinc-400 mt-1 block ${m.sender === "user" ? "text-right" : "text-left"}`}>
+              <span className={`text-[9px] font-mono text-zinc-300 font-bold mt-1 block ${m.sender === "user" ? "text-right" : "text-left"}`}>
                 {m.sender === "user" ? "YOU" : "CLINICAL COACH"} • {m.timestamp}
               </span>
             </div>
@@ -148,11 +149,11 @@ What is occupying your focus today? Feel free to pick a prompt below or type you
             <div className="rounded-full h-8 w-8 flex items-center justify-center bg-[#0c0c0e] border border-white/5 text-indigo-400 shrink-0">
               <Brain className="h-4 w-4 animate-pulse text-indigo-400" />
             </div>
-            <div className="rounded-2xl rounded-tl-none bg-[#0c0c0e]/40 border border-white/5 px-4 py-3.5 text-xs text-zinc-400 flex items-center gap-2">
-              <span className="h-1.5 w-1.5 bg-zinc-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
-              <span className="h-1.5 w-1.5 bg-zinc-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
-              <span className="h-1.5 w-1.5 bg-zinc-500 rounded-full animate-bounce" />
-              <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-400 pl-1">Coach is drafting coping scripts...</span>
+            <div className="rounded-2xl rounded-tl-none bg-[#0c0c0e]/40 border border-white/5 px-4 py-3.5 text-xs text-zinc-350 flex items-center gap-2">
+              <span className="h-1.5 w-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+              <span className="h-1.5 w-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+              <span className="h-1.5 w-1.5 bg-zinc-400 rounded-full animate-bounce" />
+              <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-200 font-bold pl-1">Coach is drafting coping scripts...</span>
             </div>
           </div>
         )}
@@ -160,13 +161,14 @@ What is occupying your focus today? Feel free to pick a prompt below or type you
       </div>
 
       {/* Suggested prompts */}
-      <div className="shrink-0 mb-3 flex flex-wrap gap-1.5" id="suggested-prompts">
+      <div className="shrink-0 mb-3 flex flex-wrap gap-1.5" id="suggested-prompts" role="group" aria-label="Quick Wellness Prompts">
         {samplePrompts.map((p, idx) => (
           <button
             key={idx}
             disabled={isSending}
             onClick={() => handleSendMessage(p.text)}
-            className="px-2.5 py-1.5 rounded-lg bg-[#0c0c0e] hover:bg-white/5 border border-white/5 text-[10px] text-zinc-400 hover:text-zinc-200 transition-all cursor-pointer font-sans"
+            className="px-2.5 py-1.5 rounded-lg bg-[#0c0c0e] hover:bg-white/5 border border-white/5 text-[10px] text-zinc-300 hover:text-zinc-100 transition-all cursor-pointer font-sans font-medium"
+            aria-label={`Ask coach about: ${p.label}`}
           >
             📋 {p.label}
           </button>

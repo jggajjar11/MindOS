@@ -53,7 +53,7 @@ export default function TriggerDiscovery({ entries, profile }: TriggerDiscoveryP
             <SearchCode className="h-5 w-5 text-indigo-400" />
             AI Hidden Trigger Scan
           </h2>
-          <p className="text-xs text-zinc-400 mt-1">
+          <p className="text-xs text-zinc-300 mt-1 font-medium">
             Analyze historical thoughts to map subconscious fatigue cycles, pressure anchors, and peer habits.
           </p>
         </div>
@@ -63,6 +63,7 @@ export default function TriggerDiscovery({ entries, profile }: TriggerDiscoveryP
           disabled={isScanning || entries.length < 2}
           className="flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 text-xs transition-all disabled:opacity-40 select-none cursor-pointer"
           id="trigger-run-deep-scan-btn"
+          aria-describedby={entries.length < 2 ? "trigger-history-alert-box" : undefined}
         >
           {isScanning ? (
             <>
@@ -79,10 +80,10 @@ export default function TriggerDiscovery({ entries, profile }: TriggerDiscoveryP
       </div>
 
       {entries.length < 2 ? (
-        <div className="text-center py-10 bg-[#0c0c0e]/30 rounded-xl border border-dashed border-white/5" id="trigger-history-alert-box">
-          <HelpCircle className="h-8 w-8 text-zinc-700 mx-auto mb-2" />
-          <p className="text-xs font-semibold text-zinc-400">Locked Checklist Indicator</p>
-          <p className="text-[10px] text-zinc-400 max-w-sm mx-auto mt-1">
+        <div className="text-center py-10 bg-[#0c0c0e]/30 rounded-xl border border-dashed border-white/10" id="trigger-history-alert-box">
+          <HelpCircle className="h-8 w-8 text-indigo-400/80 mx-auto mb-2" />
+          <p className="text-xs font-semibold text-zinc-200">Locked Checklist Indicator</p>
+          <p className="text-[10px] text-zinc-300 max-w-sm mx-auto mt-1 leading-normal">
             You currently have only <strong>{entries.length} log entry</strong>. Log at least 2 entries inside standard check-ins to grant Gemini memory logs to extract triggers.
           </p>
         </div>
@@ -92,7 +93,9 @@ export default function TriggerDiscovery({ entries, profile }: TriggerDiscoveryP
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="p-3 mb-4 rounded-xl bg-red-950/20 border border-red-900/30 text-xs text-red-300"
+              role="alert"
+              aria-live="assertive"
+              className="p-3 mb-4 rounded-xl bg-red-950/20 border border-red-900/40 text-xs text-red-300"
             >
               {error}
             </motion.div>
@@ -108,21 +111,27 @@ export default function TriggerDiscovery({ entries, profile }: TriggerDiscoveryP
             >
               {/* Pattern list */}
               <div>
-                <h3 className="text-xs font-mono uppercase tracking-wider text-indigo-400 mb-3 flex items-center gap-1.5">
+                <h3 className="text-xs font-mono uppercase tracking-wider text-indigo-300 mb-3 flex items-center gap-1.5 font-bold">
                   <span className="p-1 rounded-md bg-indigo-500/10"><Activity className="h-3.5 w-3.5" /></span>
                   Core Detected Hidden Habits & Triggers
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4" id="discovered-patterns-grid">
+                <div 
+                  role="list"
+                  aria-label="Core Detected Hidden Habits & Triggers"
+                  className="grid grid-cols-1 md:grid-cols-3 gap-4" 
+                  id="discovered-patterns-grid"
+                >
                   {report.insightsOnTriggers.map((pattern, i) => (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.1 }}
                       key={i}
-                      className="p-4 rounded-xl bg-[#0c0c0e] border border-white/5 hover:border-white/10 transition-all flex flex-col justify-between"
+                      role="listitem"
+                      className="p-4 rounded-xl bg-[#0c0c0e] border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between"
                     >
-                      <p className="text-xs text-white leading-relaxed font-sans font-medium">"{pattern}"</p>
-                      <span className="text-[9px] font-mono text-indigo-300 uppercase mt-4 block">Core Signal #{i + 1}</span>
+                      <p className="text-xs text-zinc-100 leading-relaxed font-sans font-semibold">"{pattern}"</p>
+                      <span className="text-[9px] font-mono text-indigo-300 uppercase mt-4 block font-bold">Core Signal #{i + 1}</span>
                     </motion.div>
                   ))}
                 </div>

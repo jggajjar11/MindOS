@@ -143,52 +143,70 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
           <div className="space-y-5">
             {/* Type selector */}
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <span id="somatic-therapy-label" className="block text-xs font-mono uppercase tracking-wider text-zinc-200 mb-2 font-bold">
                 1. Somatic Therapy Target
-              </label>
-              <div className="grid grid-cols-2 gap-2">
+              </span>
+              <div 
+                role="radiogroup" 
+                aria-labelledby="somatic-therapy-label"
+                className="grid grid-cols-2 gap-2"
+              >
                 {[
                   { value: "breathing", label: "🧘 Breathing Reset", desc: "For panic spikes" },
                   { value: "grounding", label: "👣 Somatic 5-4-3-2-1", desc: "For screen burnout" },
                   { value: "visualization", label: "🌌 Guided Focus", desc: "Performance confidence" },
-                ].map((item) => (
-                  <button
-                    key={item.value}
-                    onClick={() => setExerciseType(item.value)}
-                    className={`p-3 text-left rounded-xl border transition-all cursor-pointer ${
-                      exerciseType === item.value
-                        ? "bg-indigo-950/40 border-indigo-500/70 text-indigo-200"
-                        : "bg-[#0c0c0e] border border-white/5 hover:border-white/10 text-zinc-400"
-                    }`}
-                    id={`type-btn-${item.value}`}
-                  >
-                    <p className="text-xs font-bold text-white">{item.label}</p>
-                    <p className="text-[9px] text-zinc-400 mt-0.5">{item.desc}</p>
-                  </button>
-                ))}
+                ].map((item) => {
+                  const isSelected = exerciseType === item.value;
+                  return (
+                    <button
+                      key={item.value}
+                      role="radio"
+                      aria-checked={isSelected}
+                      onClick={() => setExerciseType(item.value)}
+                      className={`p-3 text-left rounded-xl border transition-all cursor-pointer ${
+                        isSelected
+                          ? "bg-indigo-950/40 border-indigo-500/70 text-indigo-200"
+                          : "bg-[#0c0c0e] border border-white/5 hover:border-white/10 text-zinc-300"
+                      }`}
+                      id={`type-btn-${item.value}`}
+                    >
+                      <p className="text-xs font-bold text-white">{item.label}</p>
+                      <p className="text-[9px] text-zinc-300 mt-0.5">{item.desc}</p>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
             {/* Duration selector */}
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <span id="practice-duration-label" className="block text-xs font-mono uppercase tracking-wider text-zinc-200 mb-2 font-bold">
                 2. Target Practice Duration
-              </label>
-              <div className="grid grid-cols-3 gap-2">
-                {["1 min", "3 mins", "5 mins"].map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setDuration(t)}
-                    className={`py-2 text-xs font-sans font-bold rounded-lg border transition-all cursor-pointer ${
-                      duration === t
-                        ? "bg-indigo-950/40 border-indigo-500/70 text-indigo-200"
-                        : "bg-[#0c0c0e] border border-white/5 text-zinc-400 hover:border-white/10"
-                    }`}
-                    id={`duration-btn-${t.replace(" ", "-")}`}
-                  >
-                    ⏱️ {t}
-                  </button>
-                ))}
+              </span>
+              <div 
+                role="radiogroup" 
+                aria-labelledby="practice-duration-label"
+                className="grid grid-cols-3 gap-2"
+              >
+                {["1 min", "3 mins", "5 mins"].map((t) => {
+                  const isSelected = duration === t;
+                  return (
+                    <button
+                      key={t}
+                      role="radio"
+                      aria-checked={isSelected}
+                      onClick={() => setDuration(t)}
+                      className={`py-2 text-xs font-sans font-bold rounded-lg border transition-all cursor-pointer ${
+                        isSelected
+                          ? "bg-indigo-950/40 border-indigo-500/70 text-indigo-200"
+                          : "bg-[#0c0c0e] border border-white/5 text-zinc-300 hover:border-white/10"
+                      }`}
+                      id={`duration-btn-${t.replace(" ", "-")}`}
+                    >
+                      ⏱️ {t}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -222,7 +240,7 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
 
         {/* Respiratory Box Breathing synchronizer UI */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl flex flex-col items-center text-center" id="respiratorybox-ui">
-          <h3 className="text-xs font-mono uppercase tracking-wider text-zinc-400 mb-6 flex items-center gap-1.5 self-start">
+          <h3 className="text-xs font-mono uppercase tracking-wider text-zinc-250 font-bold mb-6 flex items-center gap-1.5 self-start">
             <Volume2 className="h-4 w-4 text-indigo-400" /> Live Breathing Loop
           </h3>
 
@@ -243,7 +261,7 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
                   ? (breathPhase === "Inhale" ? "bg-indigo-500/20 shadow-[0_0_50px_rgba(99,102,241,0.25)] text-indigo-300 border-indigo-500/40" 
                     : breathPhase === "Hold" ? "bg-sky-500/20 shadow-[0_0_50px_rgba(14,165,233,0.25)] text-sky-300 border-sky-400/40" 
                     : breathPhase === "Exhale" ? "bg-purple-500/10 shadow-[0_0_30px_rgba(168,85,247,0.15)] text-purple-300 border-purple-500/30"
-                    : "bg-white/5 text-zinc-400 border-white/10")
+                    : "bg-white/5 text-zinc-300 border-white/10")
                   : "bg-[#0c0c0e] text-indigo-400 border-white/5"
               } h-36 w-36 border-2`}
               id="breathing-live-sphere"
@@ -263,7 +281,7 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
 
           <div className="flex gap-4 items-center justify-center mt-5 w-full border-t border-white/5 pt-4 font-mono">
             <div>
-              <p className="text-[10px] text-zinc-400 uppercase">Timer</p>
+              <p className="text-[10px] text-zinc-300 uppercase font-bold">Timer</p>
               <p className="text-sm font-bold text-white mt-0.5">{formatMinSec(totalTimer)}</p>
             </div>
             
@@ -285,7 +303,7 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
                   setTotalTimer(180);
                 }}
                 aria-label="Reset breathing session"
-                className="p-2.5 rounded-full bg-[#0c0c0e]/80 hover:bg-[#121214] text-zinc-400 border border-white/10 flex items-center justify-center cursor-pointer active:scale-95"
+                className="p-2.5 rounded-full bg-[#0c0c0e]/80 hover:bg-[#121214] text-zinc-300 border border-white/10 flex items-center justify-center cursor-pointer active:scale-95"
                 id="breathing-reset-btn"
               >
                 <RefreshCw className="h-4 w-4" />
@@ -358,9 +376,9 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
             </motion.div>
           ) : (
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-xl h-full flex flex-col justify-center items-center text-center" id="exercise-idle-card">
-              <Compass className="h-12 w-12 text-zinc-700 animate-pulse mb-3" />
+              <Compass className="h-12 w-12 text-zinc-650 animate-pulse mb-3" />
               <p className="text-sm font-sans font-bold text-white">Somatic Workspace Idle</p>
-              <p className="text-xs text-zinc-400 max-w-sm mt-1 leading-normal">
+              <p className="text-xs text-zinc-300 max-w-sm mt-1 leading-normal">
                 Choose your wellness targets on the left column, then click <strong>"Generate MBSR Session"</strong>. Gemini will construct a pristine behavioral script targeting your logged profile.
               </p>
             </div>

@@ -16,6 +16,8 @@ export default function CrisisBanner({ onTriggerBreathing }: CrisisBannerProps) 
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
+      role="region"
+      aria-label="Support Circle Urgent Alert"
       className="mb-6 overflow-hidden rounded-2xl border border-red-500/30 bg-red-950/15 p-5 shadow-lg backdrop-blur-xl"
       id="crisis-banner-card"
     >

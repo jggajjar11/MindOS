@@ -52,10 +52,10 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
             <Sparkles className="h-3 w-3" />
             ACADEMIC COGNITIVE ENGINE
           </div>
-          <h1 className="text-4xl md:text-6xl font-sans font-bold tracking-tight text-white">
+          <h1 className="text-4xl md:text-6xl font-sans font-bold tracking-tight text-white animate-fade-in">
             MindOS
           </h1>
-          <p className="mt-3 text-sm md:text-base text-zinc-400 max-w-xl mx-auto leading-relaxed">
+          <p className="mt-3 text-sm md:text-base text-zinc-350 max-w-xl mx-auto leading-relaxed">
             A premium cognitive firewall for students under massive testing pressure. Analyze journal patterns, discover hidden exam triggers, and run tailored somatic exercises.
           </p>
         </motion.div>
@@ -73,7 +73,7 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
               <GraduationCap className="h-6 w-6 text-indigo-400" />
               Configure Student Terminal
             </h2>
-            <p className="text-xs text-zinc-400 mt-1">
+            <p className="text-xs text-zinc-350 mt-1">
               Your logs and profile remain entirely inside this web-browser (LocalStorage). Private & secure.
             </p>
           </div>
@@ -81,7 +81,7 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Input Name */}
             <div>
-              <label htmlFor="student-name" className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label htmlFor="student-name" className="block text-xs font-mono uppercase tracking-wider text-zinc-200 mb-2 font-bold">
                 What should we call you?
               </label>
               <input
@@ -100,45 +100,56 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
 
             {/* Premium presets container */}
             <div>
-              <label htmlFor="custom-exam" className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-3">
+              <span id="exam-preset-group-label" className="block text-xs font-mono uppercase tracking-wider text-zinc-200 mb-3 font-bold">
                 Select Your Preparation Target
-              </label>
+              </span>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" id="exam-preset-grid">
-                {examPresets.map((preset) => (
-                  <button
-                    key={preset.key}
-                    type="button"
-                    onClick={() => {
-                      setExamType(preset.label);
-                      setError("");
-                    }}
-                    aria-label={`Select ${preset.label} preset`}
-                    className={`text-left p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between h-[105px] group ${
-                      examType === preset.label 
-                        ? "bg-indigo-950/40 border-indigo-500/70 shadow-lg text-indigo-200" 
-                        : "bg-[#0c0c0e] border border-white/5 hover:border-white/10 hover:bg-[#121214]"
-                    }`}
-                    id={`preset-${preset.key}`}
-                  >
-                    <div className="flex items-center justify-between w-full">
-                      <span className={`text-xs font-mono tracking-wide ${examType === preset.label ? "text-indigo-400" : "text-zinc-400 group-hover:text-zinc-200"}`}>
-                        PRESET
-                      </span>
-                      {examType === preset.label && (
-                        <CheckCircle className="h-4 w-4 text-indigo-400" />
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="text-xs font-sans font-bold text-zinc-100 mt-1 line-clamp-1">{preset.label}</h3>
-                      <p className="text-[10px] text-zinc-400 mt-0.5 line-clamp-1">{preset.desc}</p>
-                    </div>
-                  </button>
-                ))}
+              <div 
+                role="radiogroup" 
+                aria-labelledby="exam-preset-group-label"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-3" 
+                id="exam-preset-grid"
+              >
+                {examPresets.map((preset) => {
+                  const isSelected = examType === preset.label;
+                  return (
+                    <button
+                      key={preset.key}
+                      type="button"
+                      role="radio"
+                      aria-checked={isSelected}
+                      onClick={() => {
+                        setExamType(preset.label);
+                        setError("");
+                      }}
+                      aria-label={`${preset.label} preset - ${preset.desc}`}
+                      className={`text-left p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between h-[105px] group ${
+                        isSelected 
+                          ? "bg-indigo-950/40 border-indigo-500/70 shadow-lg text-indigo-200" 
+                          : "bg-[#0c0c0e] border border-white/5 hover:border-white/10 hover:bg-[#121214]"
+                      }`}
+                      id={`preset-${preset.key}`}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <span className={`text-[9px] font-mono tracking-wide ${isSelected ? "text-indigo-400" : "text-zinc-350 group-hover:text-zinc-100"}`}>
+                          PRESET
+                        </span>
+                        {isSelected && (
+                          <CheckCircle className="h-4 w-4 text-indigo-400" />
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="text-xs font-sans font-bold text-zinc-100 mt-1 line-clamp-1">{preset.label}</h3>
+                        <p className="text-[10px] text-zinc-300 mt-0.5 line-clamp-1">{preset.desc}</p>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Custom Input */}
               <div className="mt-4">
+                <label htmlFor="custom-exam" className="sr-only">Or input custom exam target</label>
                 <input
                   id="custom-exam"
                   type="text"
@@ -149,7 +160,6 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
                   }}
                   className="w-full rounded-xl bg-[#0c0c0e] border border-white/5 text-zinc-100 placeholder-zinc-400 px-4 py-2.5 text-xs focus:border-indigo-500 outline-none transition-all"
                   placeholder="Or write custom exam (e.g., MCAT, CFA Level II, GRE)..."
-                  aria-label="Or write custom exam target"
                 />
               </div>
             </div>
@@ -180,26 +190,26 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
         </motion.div>
 
         {/* Explanatory visual layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 text-zinc-400 text-xs w-full max-w-4xl px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 text-zinc-300 text-xs w-full max-w-4xl px-4">
           <div className="flex gap-3">
             <Layers className="h-5 w-5 text-indigo-400 shrink-0" />
             <div>
               <h4 className="font-sans font-bold text-zinc-250">Neural Pattern Maps</h4>
-              <p className="mt-1 leading-relaxed text-zinc-400">Gemini summarizes distress structures and tracks stress spikes across days dynamically.</p>
+              <p className="mt-1 leading-relaxed text-zinc-300">Gemini summarizes distress structures and tracks stress spikes across days dynamically.</p>
             </div>
           </div>
           <div className="flex gap-3">
             <Compass className="h-5 w-5 text-sky-400 shrink-0" />
             <div>
               <h4 className="font-sans font-bold text-zinc-200">Personalized Somatics</h4>
-              <p className="mt-1 leading-relaxed text-zinc-400">Instantly generate respiratory or cognitive grounding scripts aimed directly at your logged trigger profile.</p>
+              <p className="mt-1 leading-relaxed text-zinc-300">Instantly generate respiratory or cognitive grounding scripts aimed directly at your logged trigger profile.</p>
             </div>
           </div>
           <div className="flex gap-3">
             <HelpCircle className="h-5 w-5 text-indigo-400 shrink-0" />
             <div>
               <h4 className="font-sans font-bold text-zinc-200">100% Client-Side Safe</h4>
-              <p className="mt-1 leading-relaxed text-zinc-400">No database connections, cookies or logins. MindOS belongs strictly to your disk.</p>
+              <p className="mt-1 leading-relaxed text-zinc-300">No database connections, cookies or logins. MindOS belongs strictly to your disk.</p>
             </div>
           </div>
         </div>

@@ -343,20 +343,20 @@ export default function Dashboard({ entries }: DashboardProps) {
             </span>
           </div>
 
-          <div className="h-72 w-full mt-4" id="mood-stress-trend-wrapper">
+          <div className="h-72 w-full mt-4" id="mood-stress-trend-wrapper" role="img" aria-label="Line Graph showing Mood score, Stress indices, and Confidence levels over time">
             {chronologicalEntries.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-zinc-500 text-xs">
+              <div className="h-full flex flex-col items-center justify-center text-zinc-300 text-xs">
                 <p>No log data loaded. Log your first journal entry to run trend mapping.</p>
               </div>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={trendData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                  <XAxis dataKey="date" stroke="#a1a1aa" fontSize={10} tickLine={false} />
-                  <YAxis stroke="#a1a1aa" fontSize={10} domain={[1, 10]} tickCount={10} tickLine={false} />
+                  <XAxis dataKey="date" stroke="#e4e4e7" fontSize={10} tickLine={false} />
+                  <YAxis stroke="#e4e4e7" fontSize={10} domain={[1, 10]} tickCount={10} tickLine={false} />
                   <Tooltip 
                     contentStyle={{ backgroundColor: "#09090b", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", fontSize: "11px" }}
-                    labelStyle={{ fontWeight: "bold", color: "#a1a1aa" }}
+                    labelStyle={{ fontWeight: "bold", color: "#e4e4e7" }}
                   />
                   <Legend wrapperStyle={{ fontSize: "10px", fontFamily: "monospace", paddingTop: "10px" }} />
                   <Line type="monotone" dataKey="Mood Score" stroke="#6366f1" strokeWidth={3} activeDot={{ r: 6 }} />
@@ -375,11 +375,11 @@ export default function Dashboard({ entries }: DashboardProps) {
               <Activity className="h-4.5 w-4.5 text-indigo-400" />
               Primary Emotion Distribution
             </h3>
-            <span className="text-[10px] text-zinc-400 font-mono">DENSITY MAP</span>
+            <span className="text-[10px] text-zinc-300 font-mono font-bold">DENSITY MAP</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-            <div className="md:col-span-7 h-60 w-full" id="pie-chart-wrapper">
+            <div className="md:col-span-7 h-60 w-full" id="pie-chart-wrapper" role="img" aria-label="Donut diagram representing breakdown of primary emotional categories">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Tooltip
@@ -412,7 +412,7 @@ export default function Dashboard({ entries }: DashboardProps) {
                       <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: pieColors[name as keyof typeof pieColors] }} />
                       <span className="text-zinc-300">{name}</span>
                     </div>
-                    <span className="text-zinc-400 font-semibold">{count} entries</span>
+                    <span className="text-zinc-300 font-bold">{count} entries</span>
                   </div>
                 );
               })}
@@ -429,15 +429,15 @@ export default function Dashboard({ entries }: DashboardProps) {
             <Dumbbell className="h-4.5 w-4.5 text-indigo-400" />
             Detected Stress Trigger Frequencies (All Entries)
           </h3>
-          <span className="text-[10px] text-zinc-400 font-mono">MITIGATION INDEX</span>
+          <span className="text-[10px] text-zinc-300 font-mono font-bold">MITIGATION INDEX</span>
         </div>
 
-        <div className="h-64 w-full mt-4" id="bar-chart-wrapper">
+        <div className="h-64 w-full mt-4" id="bar-chart-wrapper" role="img" aria-label="Bar chart showing the frequency of different academic stress factors">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={barData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="name" stroke="#a1a1aa" fontSize={9.5} tickLine={false} />
-              <YAxis stroke="#a1a1aa" fontSize={10} tickLine={false} allowDecimals={false} />
+              <XAxis dataKey="name" stroke="#e4e4e7" fontSize={9.5} tickLine={false} />
+              <YAxis stroke="#e4e4e7" fontSize={10} tickLine={false} allowDecimals={false} />
               <Tooltip
                 contentStyle={{ backgroundColor: "#09090b", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", fontSize: "11px" }}
               />

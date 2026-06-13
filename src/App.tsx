@@ -128,7 +128,7 @@ export default function App() {
               <span className="text-base font-bold font-sans tracking-wide text-white block">
                 MindOS
               </span>
-              <span className="text-[9px] font-mono tracking-widest text-zinc-400 uppercase block">
+              <span className="text-[9px] font-mono tracking-widest text-zinc-300 uppercase block">
                 Student Wellness Terminal
               </span>
             </div>
@@ -137,11 +137,11 @@ export default function App() {
           {/* Student Status details */}
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex flex-col text-right font-mono text-[10px]">
-              <span className="text-zinc-400 font-bold flex items-center gap-1 justify-end">
+              <span className="text-zinc-200 font-bold flex items-center gap-1 justify-end">
                 <GraduationCap className="h-3.5 w-3.5 text-indigo-400" />
                 {profile.name}
               </span>
-              <span className="text-zinc-400 mt-0.5 uppercase tracking-wide">
+              <span className="text-zinc-300 mt-0.5 uppercase tracking-wide">
                 Target: {profile.examType}
               </span>
             </div>
@@ -169,7 +169,12 @@ export default function App() {
         )}
 
         {/* Dashboard sub navigation tab bar */}
-        <div className="flex overflow-x-auto gap-1 border-b border-white/5 pb-px mb-6 shrink-0 h-11 scrollbar-none" id="applet-navigation-tabs">
+        <nav 
+          role="tablist" 
+          aria-label="Student terminal navigation tabs" 
+          className="flex overflow-x-auto gap-1 border-b border-white/5 pb-px mb-6 shrink-0 h-11 scrollbar-none" 
+          id="applet-navigation-tabs"
+        >
           {[
             { id: "dashboard", label: "Dashboard Analytics", icon: LayoutDashboard },
             { id: "journal", label: "Mood & Journal", icon: Heart },
@@ -182,11 +187,14 @@ export default function App() {
             return (
               <button
                 key={tab.id}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`panel-${tab.id}`}
                 onClick={() => setCurrentTab(tab.id as any)}
                 className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold tracking-wide transition-all border-b-2 font-mono whitespace-nowrap cursor-pointer ${
                   isActive 
-                    ? "border-indigo-500 text-indigo-400 bg-white/5" 
-                    : "border-transparent text-zinc-400 hover:text-white"
+                    ? "border-indigo-500 text-indigo-400 bg-white/5 font-bold" 
+                    : "border-transparent text-zinc-300 hover:text-white"
                 }`}
                 id={`tab-navigate-${tab.id}`}
               >
@@ -195,13 +203,16 @@ export default function App() {
               </button>
             );
           })}
-        </div>
+        </nav>
 
         {/* Primary Page views */}
         <div className="flex-1">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTab}
+              role="tabpanel"
+              id={`panel-${currentTab}`}
+              aria-labelledby={`tab-navigate-${currentTab}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -222,20 +233,21 @@ export default function App() {
                   />
 
                   {/* Previous logged days log panel list */}
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl" id="journal-history-panel">
-                    <h3 className="text-xs font-mono uppercase tracking-wider text-zinc-400 border-b border-white/5 pb-3 mb-4 flex items-center gap-2">
+                  <section className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl" id="journal-history-panel">
+                    <h3 className="text-xs font-mono uppercase tracking-wider text-zinc-250 border-b border-white/5 pb-3 mb-4 flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-indigo-400" /> Historical Log Archives ({entries.length} logged)
                     </h3>
                     
                     {entries.length === 0 ? (
-                      <div className="text-center py-10 text-zinc-400 text-xs">
+                      <div className="text-center py-10 text-zinc-300 text-xs">
                         No previous logs recorded. Use the inputs in the layout above to log your first wellness check.
                       </div>
                     ) : (
-                      <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 scrollbar-thin" id="journal-history-list">
+                      <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 scrollbar-thin" id="journal-history-list" role="list">
                         {entries.map((entry) => (
                           <div 
                             key={entry.id}
+                            role="listitem"
                             className="p-4 rounded-xl border border-white/5 bg-[#0c0c0e]/80 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-white/10"
                           >
                             <div className="space-y-1 fill-neutral flex-1 max-w-3xl">
@@ -246,11 +258,11 @@ export default function App() {
                                 {entry.analysis && (
                                   <>
                                     <span className="text-zinc-600">|</span>
-                                    <span className="text-zinc-400 uppercase tracking-widest text-[9px] font-bold">Emotion: {entry.analysis.emotion}</span>
+                                    <span className="text-zinc-300 uppercase tracking-widest text-[9px] font-bold">Emotion: {entry.analysis.emotion}</span>
                                   </>
                                 )}
                               </div>
-                              <p className="text-xs text-zinc-300 font-sans leading-relaxed pt-1 line-clamp-2">
+                              <p className="text-xs text-zinc-200 font-sans leading-relaxed pt-1 line-clamp-2">
                                 {entry.text}
                               </p>
                             </div>
@@ -259,7 +271,7 @@ export default function App() {
                               onClick={() => handleDeleteEntry(entry.id)}
                               className="text-zinc-400 hover:text-red-400 p-2 rounded-lg hover:bg-white/5 transition-all self-end md:self-center cursor-pointer"
                               title="Delete log permanently"
-                              aria-label="Delete log entry permanently"
+                              aria-label={`Delete log entry from ${entry.date} permanently`}
                             >
                               <Trash2 className="h-4 w-4" />
                             </button>
@@ -267,7 +279,7 @@ export default function App() {
                         ))}
                       </div>
                     )}
-                  </div>
+                  </section>
                 </div>
               )}
 
