@@ -1,0 +1,6 @@
+{
+  "name": "MindOS",
+  "description": "An AI-powered academic wellness companion helping students navigate exam stress, burnout risk, and trigger discovery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
