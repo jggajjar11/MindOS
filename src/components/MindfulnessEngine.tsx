@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { UserProfile, MindfulnessExercise } from "../types";
 import { Compass, Sparkles, Activity, Play, Pause, RefreshCw, Volume2, ShieldCheck, Footprints } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { formatMinSec } from "../utils/wellnessUtils";
 
 interface MindfulnessEngineProps {
   profile: UserProfile;
@@ -112,12 +113,6 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
     };
   }, [isPlaying, breathPhase, totalTimer]);
 
-  const formatMinSec = (secs: number) => {
-    const m = Math.floor(secs / 60);
-    const s = secs % 60;
-    return `${m}:${s < 10 ? "0" : ""}${s}`;
-  };
-
   // Get current prompt message based on phase
   const getPhaseInstruction = () => {
     switch (breathPhase) {
@@ -168,7 +163,7 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
                     id={`type-btn-${item.value}`}
                   >
                     <p className="text-xs font-bold text-white">{item.label}</p>
-                    <p className="text-[9px] text-zinc-500 mt-0.5">{item.desc}</p>
+                    <p className="text-[9px] text-zinc-400 mt-0.5">{item.desc}</p>
                   </button>
                 ))}
               </div>
@@ -268,13 +263,14 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
 
           <div className="flex gap-4 items-center justify-center mt-5 w-full border-t border-white/5 pt-4 font-mono">
             <div>
-              <p className="text-[10px] text-zinc-500 uppercase">Timer</p>
+              <p className="text-[10px] text-zinc-400 uppercase">Timer</p>
               <p className="text-sm font-bold text-white mt-0.5">{formatMinSec(totalTimer)}</p>
             </div>
             
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
+                aria-label={isPlaying ? "Pause breathing session" : "Start breathing session"}
                 className={`p-2.5 rounded-full text-black flex items-center justify-center cursor-pointer transition-all active:scale-90 ${isPlaying ? "bg-amber-500 hover:bg-amber-400" : "bg-white hover:bg-zinc-100"}`}
                 id="breathing-toggle-btn"
               >
@@ -288,6 +284,7 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
                   setPhaseSeconds(4);
                   setTotalTimer(180);
                 }}
+                aria-label="Reset breathing session"
                 className="p-2.5 rounded-full bg-[#0c0c0e]/80 hover:bg-[#121214] text-zinc-400 border border-white/10 flex items-center justify-center cursor-pointer active:scale-95"
                 id="breathing-reset-btn"
               >
@@ -363,7 +360,7 @@ export default function MindfulnessEngine({ profile, currentMoodCore = 5 }: Mind
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-xl h-full flex flex-col justify-center items-center text-center" id="exercise-idle-card">
               <Compass className="h-12 w-12 text-zinc-700 animate-pulse mb-3" />
               <p className="text-sm font-sans font-bold text-white">Somatic Workspace Idle</p>
-              <p className="text-xs text-zinc-500 max-w-sm mt-1 leading-normal">
+              <p className="text-xs text-zinc-400 max-w-sm mt-1 leading-normal">
                 Choose your wellness targets on the left column, then click <strong>"Generate MBSR Session"</strong>. Gemini will construct a pristine behavioral script targeting your logged profile.
               </p>
             </div>

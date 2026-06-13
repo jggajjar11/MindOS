@@ -82,7 +82,7 @@ export default function TriggerDiscovery({ entries, profile }: TriggerDiscoveryP
         <div className="text-center py-10 bg-[#0c0c0e]/30 rounded-xl border border-dashed border-white/5" id="trigger-history-alert-box">
           <HelpCircle className="h-8 w-8 text-zinc-700 mx-auto mb-2" />
           <p className="text-xs font-semibold text-zinc-400">Locked Checklist Indicator</p>
-          <p className="text-[10px] text-zinc-500 max-w-sm mx-auto mt-1">
+          <p className="text-[10px] text-zinc-400 max-w-sm mx-auto mt-1">
             You currently have only <strong>{entries.length} log entry</strong>. Log at least 2 entries inside standard check-ins to grant Gemini memory logs to extract triggers.
           </p>
         </div>
@@ -148,7 +148,7 @@ export default function TriggerDiscovery({ entries, profile }: TriggerDiscoveryP
                       {report.summary}
                     </p>
                   </div>
-                  <div className="border-t border-white/5 pt-3 flex justify-between items-center text-[10px] text-zinc-500 font-mono">
+                  <div className="border-t border-white/5 pt-3 flex justify-between items-center text-[10px] text-zinc-400 font-mono">
                     <span>COGNITIVE FIREWALL V1</span>
                     <span className="flex items-center gap-1.5 text-emerald-400">
                       <CheckCircle className="h-3.5 w-3.5" /> ANALYSIS VERIFIED
@@ -161,7 +161,7 @@ export default function TriggerDiscovery({ entries, profile }: TriggerDiscoveryP
             <div className="text-center py-12 flex flex-col items-center justify-center border border-white/5 rounded-xl bg-white/[0.01]" id="trigger-pending-view">
               <SearchCode className="h-8 w-8 text-zinc-700 animate-pulse mb-2" />
               <p className="text-xs font-semibold text-zinc-400">Scanning Idle</p>
-              <p className="text-[10px] text-zinc-500 max-w-xs mt-1">
+              <p className="text-[10px] text-zinc-400 max-w-xs mt-1">
                 You have logged <strong>{entries.length} entries</strong>. Click the "Perform Deep Scan" trigger above to run historical analysis across your thoughts.
               </p>
             </div>

@@ -136,7 +136,7 @@ export default function JournalForm({ profile, onEntryAdded, entries, onDeleteEn
             {/* Mood Slider */}
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label className="text-xs font-mono uppercase tracking-wider text-zinc-400">
+                <label htmlFor="mood-score-slider" className="text-xs font-mono uppercase tracking-wider text-zinc-400">
                   Step 1: Rate Current Mood Check-In
                 </label>
                 <span className="text-xl inline-flex items-center gap-1.5 font-bold text-white bg-[#18181b] px-2.5 py-1 rounded-lg border border-white/5" id="mood-score-display">
@@ -174,9 +174,9 @@ export default function JournalForm({ profile, onEntryAdded, entries, onDeleteEn
                   setError("");
                 }}
                 placeholder="Write honestly about study hours, mock results, parent expectations, lack of sleep, or comparison feelings..."
-                className="w-full rounded-xl bg-[#0c0c0e] border border-white/5 placeholder-zinc-650 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-zinc-100 p-4 text-sm outline-none transition-all resize-none leading-relaxed"
+                className="w-full rounded-xl bg-[#0c0c0e] border border-white/5 placeholder-zinc-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-zinc-100 p-4 text-sm outline-none transition-all resize-none leading-relaxed"
               />
-              <div className="flex justify-between items-center mt-2 text-[10px] text-zinc-500 font-mono">
+              <div className="flex justify-between items-center mt-2 text-[10px] text-zinc-400 font-mono">
                 <span>LOCALPERSISTENCE STORAGE ACTIVE</span>
                 <span className={`${text.length > 250 ? "text-indigo-400" : ""}`}>{text.length} characters</span>
               </div>
@@ -251,7 +251,7 @@ export default function JournalForm({ profile, onEntryAdded, entries, onDeleteEn
                       <p className="text-[10px] text-zinc-400 uppercase">Stress Score</p>
                       <div className="flex items-end gap-1.5 mt-1">
                         <span className="text-2xl font-bold text-white">{lastAnalysis.stressScore}</span>
-                        <span className="text-xs text-zinc-500">/10</span>
+                        <span className="text-xs text-zinc-400">/10</span>
                       </div>
                       <div className="w-full bg-[#18181b] h-1.5 rounded-full mt-2 overflow-hidden">
                         <div 
@@ -264,7 +264,7 @@ export default function JournalForm({ profile, onEntryAdded, entries, onDeleteEn
                       <p className="text-[10px] text-zinc-400 uppercase">Confidence Score</p>
                       <div className="flex items-end gap-1.5 mt-1">
                         <span className="text-2xl font-bold text-white">{lastAnalysis.confidenceScore}</span>
-                        <span className="text-xs text-zinc-500">/10</span>
+                        <span className="text-xs text-zinc-400">/10</span>
                       </div>
                       <div className="w-full bg-[#18181b] h-1.5 rounded-full mt-2 overflow-hidden">
                         <div 
@@ -306,10 +306,10 @@ export default function JournalForm({ profile, onEntryAdded, entries, onDeleteEn
                   )}
                 </motion.div>
               ) : (
-                <div className="flex flex-col items-center justify-center text-center py-12 text-zinc-500" id="feedback-placeholder">
+                <div className="flex flex-col items-center justify-center text-center py-12 text-zinc-400" id="feedback-placeholder">
                   <BrainCircuit className="h-10 w-10 text-zinc-700 mb-3 animate-pulse" />
                   <p className="text-xs font-semibold text-zinc-400">Waiting for Entry</p>
-                  <p className="text-[10px] text-zinc-500 max-w-xs mt-1">
+                  <p className="text-[10px] text-zinc-400 max-w-xs mt-1">
                     Once you save your daily journal entry, Gemini will deliver clinical counseling metrics, emotional indexes, and personalized wellness prompts right here.
                   </p>
                 </div>
@@ -317,7 +317,7 @@ export default function JournalForm({ profile, onEntryAdded, entries, onDeleteEn
             </AnimatePresence>
           </div>
 
-          <p className="text-[9px] text-zinc-500 font-mono mt-4 uppercase tracking-wider text-center">
+          <p className="text-[9px] text-zinc-400 font-mono mt-4 uppercase tracking-wider text-center">
             Encrypted End-to-End via standard client sandbox sandboxing
           </p>
         </div>

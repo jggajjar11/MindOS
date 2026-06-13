@@ -2,6 +2,7 @@ import { useState } from "react";
 import { UserProfile } from "../types";
 import { Sparkles, GraduationCap, Compass, HelpCircle, Layers, CheckCircle } from "lucide-react";
 import { motion } from "motion/react";
+import { validateOnboarding } from "../utils/wellnessUtils";
 
 interface LandingProps {
   onProfileSubmit: (profile: UserProfile) => void;
@@ -23,12 +24,9 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) {
-      setError("Please introduce yourself by name.");
-      return;
-    }
-    if (!examType) {
-      setError("Please select or customize your target exam preset.");
+    const result = validateOnboarding(name, examType);
+    if (!result.valid) {
+      setError(result.error || "Invalid onboarding information provided.");
       return;
     }
     onProfileSubmit({ name: name.trim(), examType });
@@ -94,7 +92,7 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
                   setName(e.target.value);
                   setError("");
                 }}
-                className="w-full rounded-xl bg-[#0c0c0e] border border-white/5 text-zinc-100 placeholder-zinc-650 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all outline-none"
+                className="w-full rounded-xl bg-[#0c0c0e] border border-white/5 text-zinc-100 placeholder-zinc-400 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all outline-none"
                 placeholder="Enter nickname or initial..."
                 autoComplete="off"
               />
@@ -102,7 +100,7 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
 
             {/* Premium presets container */}
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-3">
+              <label htmlFor="custom-exam" className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-3">
                 Select Your Preparation Target
               </label>
               
@@ -115,6 +113,7 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
                       setExamType(preset.label);
                       setError("");
                     }}
+                    aria-label={`Select ${preset.label} preset`}
                     className={`text-left p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between h-[105px] group ${
                       examType === preset.label 
                         ? "bg-indigo-950/40 border-indigo-500/70 shadow-lg text-indigo-200" 
@@ -123,7 +122,7 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
                     id={`preset-${preset.key}`}
                   >
                     <div className="flex items-center justify-between w-full">
-                      <span className={`text-xs font-mono tracking-wide ${examType === preset.label ? "text-indigo-400" : "text-zinc-500 group-hover:text-zinc-300"}`}>
+                      <span className={`text-xs font-mono tracking-wide ${examType === preset.label ? "text-indigo-400" : "text-zinc-400 group-hover:text-zinc-200"}`}>
                         PRESET
                       </span>
                       {examType === preset.label && (
@@ -148,8 +147,9 @@ export default function Landing({ onProfileSubmit }: LandingProps) {
                     setExamType(e.target.value);
                     setError("");
                   }}
-                  className="w-full rounded-xl bg-[#0c0c0e] border border-white/5 text-zinc-100 placeholder-zinc-600 px-4 py-2.5 text-xs focus:border-indigo-500 outline-none transition-all"
+                  className="w-full rounded-xl bg-[#0c0c0e] border border-white/5 text-zinc-100 placeholder-zinc-400 px-4 py-2.5 text-xs focus:border-indigo-500 outline-none transition-all"
                   placeholder="Or write custom exam (e.g., MCAT, CFA Level II, GRE)..."
+                  aria-label="Or write custom exam target"
                 />
               </div>
             </div>

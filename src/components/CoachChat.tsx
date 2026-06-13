@@ -100,7 +100,7 @@ What is occupying your focus today? Feel free to pick a prompt below or type you
           </div>
           <div>
             <h2 className="text-sm font-sans font-bold text-white tracking-wide">AI Wellness Coach Terminal</h2>
-            <p className="text-[10px] text-zinc-500 font-mono tracking-wider uppercase">Active coaching & active coping</p>
+            <p className="text-[10px] text-zinc-400 font-mono tracking-wider uppercase">Active coaching & active coping</p>
           </div>
         </div>
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-mono">
@@ -137,7 +137,7 @@ What is occupying your focus today? Feel free to pick a prompt below or type you
                   <p>{m.text}</p>
                 )}
               </div>
-              <span className={`text-[9px] font-mono text-zinc-500 mt-1 block ${m.sender === "user" ? "text-right" : "text-left"}`}>
+              <span className={`text-[9px] font-mono text-zinc-400 mt-1 block ${m.sender === "user" ? "text-right" : "text-left"}`}>
                 {m.sender === "user" ? "YOU" : "CLINICAL COACH"} • {m.timestamp}
               </span>
             </div>
@@ -152,7 +152,7 @@ What is occupying your focus today? Feel free to pick a prompt below or type you
               <span className="h-1.5 w-1.5 bg-zinc-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
               <span className="h-1.5 w-1.5 bg-zinc-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
               <span className="h-1.5 w-1.5 bg-zinc-500 rounded-full animate-bounce" />
-              <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 pl-1">Coach is drafting coping scripts...</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-400 pl-1">Coach is drafting coping scripts...</span>
             </div>
           </div>
         )}
@@ -188,14 +188,16 @@ What is occupying your focus today? Feel free to pick a prompt below or type you
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={isSending}
-          className="w-full bg-[#0c0c0e] border border-white/5 rounded-xl px-4 py-3 text-xs text-zinc-100 placeholder-zinc-650 focus:border-indigo-500 outline-none transition-all disabled:opacity-50"
+          className="w-full bg-[#0c0c0e] border border-white/5 rounded-xl px-4 py-3 text-xs text-zinc-100 placeholder-zinc-400 focus:border-indigo-500 outline-none transition-all disabled:opacity-50"
           placeholder="Ask about stress relief, exam mental strategy, or venting..."
           autoComplete="off"
+          aria-label="Type message to AI wellness coach"
         />
         <button
           id="send-chat-message-btn"
           type="submit"
           disabled={!input.trim() || isSending}
+          aria-label="Send message"
           className="bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl px-4 flex items-center justify-center transition-all disabled:opacity-40 cursor-pointer active:scale-95 text-xs font-semibold gap-1 shrink-0"
         >
           <Send className="h-4 w-4" />

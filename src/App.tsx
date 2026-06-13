@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { UserProfile, JournalEntry } from "./types";
+import { checkCrisisKeywords } from "./utils/wellnessUtils";
 import Landing from "./components/Landing";
 import Dashboard from "./components/Dashboard";
 import JournalForm from "./components/JournalForm";
@@ -83,10 +84,8 @@ export default function App() {
 
   // Check general crisis indicators
   const checkCrisisState = (list: JournalEntry[]) => {
-    const crisisKeywords = ["suicide", "self-harm", "kill myself", "end my life", "suicidal"];
     const hasTrigger = list.some((e) => {
-      const lower = e.text.toLowerCase();
-      const hasWord = crisisKeywords.some((w) => lower.includes(w));
+      const hasWord = checkCrisisKeywords(e.text);
       const hasAIAlert = e.analysis?.crisisFlagged === true;
       return hasWord || hasAIAlert;
     });
@@ -129,7 +128,7 @@ export default function App() {
               <span className="text-base font-bold font-sans tracking-wide text-white block">
                 MindOS
               </span>
-              <span className="text-[9px] font-mono tracking-widest text-zinc-500 uppercase block">
+              <span className="text-[9px] font-mono tracking-widest text-zinc-400 uppercase block">
                 Student Wellness Terminal
               </span>
             </div>
@@ -142,7 +141,7 @@ export default function App() {
                 <GraduationCap className="h-3.5 w-3.5 text-indigo-400" />
                 {profile.name}
               </span>
-              <span className="text-zinc-500 mt-0.5 uppercase tracking-wide">
+              <span className="text-zinc-400 mt-0.5 uppercase tracking-wide">
                 Target: {profile.examType}
               </span>
             </div>
@@ -150,6 +149,7 @@ export default function App() {
             <button 
               onClick={handleResetProfile}
               title="Reset profile config"
+              aria-label="Reset profile configuration"
               className="p-2 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20 text-zinc-400 hover:text-white transition-all cursor-pointer"
               id="reset-profile-btn"
             >
@@ -228,7 +228,7 @@ export default function App() {
                     </h3>
                     
                     {entries.length === 0 ? (
-                      <div className="text-center py-10 text-zinc-500 text-xs">
+                      <div className="text-center py-10 text-zinc-400 text-xs">
                         No previous logs recorded. Use the inputs in the layout above to log your first wellness check.
                       </div>
                     ) : (
@@ -257,8 +257,9 @@ export default function App() {
 
                             <button
                               onClick={() => handleDeleteEntry(entry.id)}
-                              className="text-zinc-500 hover:text-red-400 p-2 rounded-lg hover:bg-white/5 transition-all self-end md:self-center cursor-pointer"
+                              className="text-zinc-400 hover:text-red-400 p-2 rounded-lg hover:bg-white/5 transition-all self-end md:self-center cursor-pointer"
                               title="Delete log permanently"
+                              aria-label="Delete log entry permanently"
                             >
                               <Trash2 className="h-4 w-4" />
                             </button>
@@ -288,7 +289,7 @@ export default function App() {
       </main>
 
       {/* Subtle brand footer limits */}
-      <footer className="border-t border-white/5 shrink-0 text-zinc-500 text-[10px] font-mono py-8 bg-[#09090b]">
+      <footer className="border-t border-white/5 shrink-0 text-zinc-400 text-[10px] font-mono py-8 bg-[#09090b]">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-2">
           <span>MINDOSTM COGNITIVE SECURITY FIREWALL</span>
           <span className="flex items-center gap-1">
